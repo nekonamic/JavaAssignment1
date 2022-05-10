@@ -14,8 +14,8 @@ public class Main {
         VVelcome();
         Selection();
         System.out.println("------------------------------");
-        System.out.println("欢迎使用运动会信息系统");
-        System.out.println("输入任意键结束...");
+        System.out.println("Welcome to use Sports Competition information system");
+        System.out.println("Enter any key to continue...");
         System.out.println("------------------------------");
         Scanner scanner = new Scanner(System.in);
         scanner.next();
@@ -87,29 +87,29 @@ public class Main {
 
     private static void AddEvent () {
         Scanner scanner = new Scanner(System.in);
-        String style, event, level, place;
+        String type, event, level, place;
         int year, month, day, hour, minute;
-        System.out.println("请输入类型：");
-        style = scanner.next();
-        System.out.println("请输入项目：");
+        System.out.println("Enter type: ");
+        type = scanner.next();
+        System.out.println("Enter event name: ");
         event = scanner.next();
-        System.out.println("请输入等级：");
+        System.out.println("Enter level: ");
         level = scanner.next();
-        System.out.println("请输入地点：");
+        System.out.println("Enter place: ");
         place = scanner.next();
-        System.out.println("请输入年份：");
+        System.out.println("Enter year: ");
         year = scanner.nextInt();
-        System.out.println("请输入月份：");
+        System.out.println("Enter month: ");
         month = scanner.nextInt();
-        System.out.println("请输入日份：");
+        System.out.println("Enter day: ");
         day = scanner.nextInt();
-        System.out.println("请输入小时：");
+        System.out.println("Enter hour: ");
         hour = scanner.nextInt();
-        System.out.println("请输入分钟：");
+        System.out.println("Enter minute: ");
         minute = scanner.nextInt();
-        events.add(new Event(style, event, level, new Time(year, month, day, hour, minute), place));
-        System.out.println("添加成功");
-        System.out.println("输入任意键返回上级...");
+        events.add(new Event(type, event, level, new Time(year, month, day, hour, minute), place));
+        System.out.println("Added successfully");
+        System.out.println("Enter any key to return to upper level...");
         scanner.next();
         CheckEvents();
     }
@@ -117,19 +117,19 @@ public class Main {
     private static void AddAthlete () {
         Scanner scanner = new Scanner(System.in);
         String name, event, grade, sex, score;
-        System.out.println("请输入姓名：");
+        System.out.println("Enter name: ");
         name = scanner.next();
-        System.out.println("请输入项目：");
+        System.out.println("Enter event: ");
         event = scanner.next();
-        System.out.println("请输入年级：");
+        System.out.println("Enter grade: ");
         grade = scanner.next();
-        System.out.println("请输入性别：");
+        System.out.println("Enter sex: ");
         sex = scanner.next();
-        System.out.println("请输入成绩(百分制)：");
+        System.out.println("Enter score (percentile): ");
         score = scanner.next();
         athletes.add(new Athlete(name, event, grade, sex, score));
-        System.out.println("添加成功");
-        System.out.println("输入任意键返回上级...");
+        System.out.println("Added successfully");
+        System.out.println("Enter any key to return to upper level...");
         scanner.next();
         CheckEvents();
     }
@@ -137,13 +137,13 @@ public class Main {
     private static void AddReferee () {
         Scanner scanner = new Scanner(System.in);
         String name, event;
-        System.out.println("请输入姓名：");
+        System.out.println("Enter name: ");
         name = scanner.next();
-        System.out.println("请输入项目：");
+        System.out.println("Enter event: ");
         event = scanner.next();
         referees.add(new Referee(name, event));
-        System.out.println("添加成功");
-        System.out.println("输入任意键返回上级...");
+        System.out.println("Added successfully");
+        System.out.println("Enter any key to return to upper level...");
         scanner.next();
         CheckEvents();
     }
@@ -153,28 +153,28 @@ public class Main {
         int i = 1;
         Event temp;
         boolean continueAdd = true;
-        System.out.println("请输入需要增加运动员的比赛项目的序号：");
+        System.out.println("Enter the index of the event that needs to add athlete: ");
         Scanner scanner = new Scanner(System.in);
         int eventIndex = scanner.nextInt();
         eventIndex--;
         while (continueAdd) {
             System.out.println("------------------------------------------------------------");
-            System.out.printf("%-3s %-4s %-3s %-2s %-6s %-2s", "序号", "姓名", "年级", "性别", "比赛项目", "比赛成绩");
+            System.out.printf("%-3s %-12s %-12s %-8s %-24s %-6s", "index", "name", "grade", "sex", "event", "score");
             System.out.println("\n------------------------------------------------------------");
             for (Athlete athlete : athletes) {
                 if (athlete.event.equals(events.get(eventIndex).event)) {
-                    System.out.printf("%-3d %-4s %-3s %-2s %-6s %-2s", i, athlete.name, athlete.grade, athlete.sex, athlete.event, athlete.score);
+                    System.out.printf("%-3s %-12s %-12s %-8s %-24s %-6s", i, athlete.name, athlete.grade, athlete.sex, athlete.event, athlete.score);
                     i++;
                 }
             }
             System.out.println("\n------------------------------------------------------------");
-            System.out.println("请输入需要加入比赛项目的运动员的序号：");
+            System.out.println("Enter the index of the athlete who needs to join the event: ");
             int addedAthlete = scanner.nextInt();
             addedAthlete--;
             temp = events.get(eventIndex);
             temp.athletes.add(athletes.get(addedAthlete));
             events.set(eventIndex, temp);
-            System.out.println("添加成功，是否继续添加？(Y/N)");
+            System.out.println("Added successfully, whether to continue adding? (Y/N)");
             continueString = scanner.next();
             if (! (continueString.equalsIgnoreCase("y") || continueString.equalsIgnoreCase("yes"))) {
                 continueAdd = false;
@@ -188,28 +188,28 @@ public class Main {
         int i = 1;
         Event temp;
         boolean continueAdd = true;
-        System.out.println("请输入需要增加裁判员的比赛项目的序号：");
+        System.out.println("Enter the index of the event that needs to add referee: ");
         Scanner scanner = new Scanner(System.in);
         int eventIndex = scanner.nextInt();
         eventIndex--;
         while (continueAdd) {
             System.out.println("------------------------------");
-            System.out.printf("%-3s %-4s %-6s", "序号", "姓名", "项目");
+            System.out.printf("%-3s %-12s %-24s", "index", "name", "event");
             System.out.println("\n------------------------------");
             for (Referee referee : referees) {
                 if (referee.event.equals(events.get(eventIndex).event)){
-                    System.out.printf("%-3d %-4s %-6s", i, referee.name, referee.event);
+                    System.out.printf("%-3s %-12s %-24s", i, referee.name, referee.event);
                     i++;
                 }
             }
             System.out.println("\n------------------------------");
-            System.out.println("请输入需要加入比赛项目的裁判员的序号：");
+            System.out.println("Enter the index of the referee who needs to join the event: ");
             int addedReferee = scanner.nextInt();
             addedReferee--;
             temp = events.get(eventIndex);
             temp.referees.add(referees.get(addedReferee));
             events.set(eventIndex, temp);
-            System.out.println("添加成功，是否继续添加？(Y/N)");
+            System.out.println("Added successfully, whether to continue adding? (Y/N)");
             continueString = scanner.next();
             if (! (continueString.equalsIgnoreCase("y") || continueString.equalsIgnoreCase("yes"))) {
                 continueAdd = false;
@@ -226,8 +226,8 @@ public class Main {
 
     private static void VVelcome () {
         System.out.println("------------------------------");
-        System.out.println("欢迎来到运动会信息系统");
-        System.out.println("输入任意键继续...");
+        System.out.println("Welcome to Sports Competition information system");
+        System.out.println("Enter any key to continue...");
         System.out.println("------------------------------");
         Scanner scanner = new Scanner(System.in);
         scanner.next();
@@ -235,13 +235,13 @@ public class Main {
 
     private static void Selection () {
         System.out.println("------------------------------");
-        System.out.println("1. 查看比赛项目");
-        System.out.println("2. 查看运动员");
-        System.out.println("3. 查看裁判员");
-        System.out.println("4. 增加比赛项目");
-        System.out.println("5. 增加运动员");
-        System.out.println("6. 增加裁判员");
-        System.out.println("7. 退出");
+        System.out.println("1. Check events");
+        System.out.println("2. Check athletes");
+        System.out.println("3. Check referees");
+        System.out.println("4. Add event");
+        System.out.println("5. Add athlete");
+        System.out.println("6. Add referee");
+        System.out.println("7. Exit");
         System.out.println("------------------------------");
         Scanner scanner = new Scanner(System.in);
         int choice = scanner.nextInt();
@@ -259,23 +259,23 @@ public class Main {
     private static void CheckEvents () {
         int i = 1;
         System.out.println("------------------------------------------------------------------------------------------");
-        System.out.printf("%-3s %-2s %-6s %-4s %-16s %-6s %-24s %-72s", "序号", "类型", "名称", "等级", "时间", "地点", "裁判员", "运动员");
+        System.out.printf("%-3s %-12s %-12s %-8s %-24s %-12s %-24s %-72s", "index", "type", "event", "grade", "time", "place", "referees", "athletes");
         System.out.println("\n------------------------------------------------------------------------------------------");
         for (Event event : events) {
-            System.out.printf("%-3d %-2s %-6s %-4s %-16s %-6s %-24s %-72s", i, event.style, event.event, event.level, event.time, event.place, GetReferees(event.referees), GetAthletes(event.athletes));
+            System.out.printf("%-3s %-12s %-12s %-8s %-24s %-12s %-24s %-72s", i, event.type, event.event, event.level, event.time, event.place, GetReferees(event.referees), GetAthletes(event.athletes));
             i++;
         }
         System.out.println("\n------------------------------------------------------------------------------------------");
-        System.out.println("1. 按类型排序");
-        System.out.println("2. 按名称排序");
-        System.out.println("3. 按等级排序");
-        System.out.println("4. 按时间排序");
-        System.out.println("5. 按地点排序");
-        System.out.println("6. 查询指定比赛结果");
-        System.out.println("7. 增加运动员");
-        System.out.println("8. 增加裁判员");
-        System.out.println("9. 增加比赛项目");
-        System.out.println("0. 返回上级");
+        System.out.println("1. Sort by type");
+        System.out.println("2. Sort by event");
+        System.out.println("3. Sort by level");
+        System.out.println("4. Sort by time");
+        System.out.println("5. Sort by place");
+        System.out.println("6. CHeck result of event");
+        System.out.println("7. Add athlete");
+        System.out.println("8. Add referee");
+        System.out.println("9. Add event");
+        System.out.println("0. return to upper level");
         System.out.println("------------------------------------------------------------------------------------------");
         Scanner scanner = new Scanner(System.in);
         int choice = scanner.nextInt();
@@ -296,20 +296,20 @@ public class Main {
     private static void CheckAthletes () {
         int i = 1;
         System.out.println("------------------------------------------------------------");
-        System.out.printf("%-4s %-3s %-2s %-6s %-2s", "姓名", "年级", "性别", "比赛项目", "比赛成绩");
+        System.out.printf("%-3s %-12s %-12s %-8s %-24s %-6s", "index", "name", "grade", "sex", "event", "score");
         System.out.println("\n------------------------------------------------------------");
         for (Athlete athlete : athletes) {
-            System.out.printf("%-3d %-4s %-3s %-2s %-6s %-2s", i, athlete.name, athlete.grade, athlete.sex, athlete.event, athlete.score);
+            System.out.printf("%-3s %-12s %-12s %-8s %-24s %-6s", i, athlete.name, athlete.grade, athlete.sex, athlete.event, athlete.score);
             i++;
         }
         System.out.println("\n------------------------------------------------------------");
-        System.out.println("1. 按姓名排序");
-        System.out.println("2. 按年级排序");
-        System.out.println("3. 按性别排序");
-        System.out.println("4. 按比赛项目排序");
-        System.out.println("5. 按比赛成绩排序");
-        System.out.println("6. 增加运动员");
-        System.out.println("7. 返回上级");
+        System.out.println("1. Sort by name");
+        System.out.println("2. Sort by grade");
+        System.out.println("3. SOrt by sex");
+        System.out.println("4. Sort by event");
+        System.out.println("5. Sort by score");
+        System.out.println("6. Add athlete");
+        System.out.println("7. return to upper level");
         System.out.println("------------------------------------------------------------");
         Scanner scanner = new Scanner(System.in);
         int choice = scanner.nextInt();
@@ -327,17 +327,17 @@ public class Main {
     private static void CheckReferees () {
         int i = 0;
         System.out.println("------------------------------");
-        System.out.printf("%-4s %-6s", "姓名", "项目");
+        System.out.printf("%-12s %-24s", "name", "event");
         System.out.println("\n------------------------------");
         for (Referee referee : referees) {
-            System.out.printf("%-3d %-4s %-6s", i, referee.name, referee.event);
+            System.out.printf("%-3d %-12s %-24s", i, referee.name, referee.event);
             i++;
         }
         System.out.println("\n------------------------------");
-        System.out.println("1. 按姓名排序");
-        System.out.println("2. 按项目排序");
-        System.out.println("3. 增加裁判员");
-        System.out.println("4. 返回上级");
+        System.out.println("1. SOrt by name");
+        System.out.println("2. SOrt by event");
+        System.out.println("3. Add referee");
+        System.out.println("4. return to upper level");
         System.out.println("------------------------------");
         Scanner scanner = new Scanner(System.in);
         int choice = scanner.nextInt();
@@ -367,7 +367,7 @@ public class Main {
         Event temp;
         for (int i=0; i<events.size() - 1; i++) {
             for (int j=i+1; j<events.size(); j++) {
-                if (events.get(i).style.compareTo(events.get(j).style) > 0) {
+                if (events.get(i).type.compareTo(events.get(j).type) > 0) {
                     temp = events.get(j);
                     events.set(j, events.get(j + 1));
                     events.set(j + 1, temp);
@@ -532,11 +532,11 @@ public class Main {
     }
 
     private static void CheckInformation () {
-        System.out.println("请输入需要查询的比赛项目的序号：");
+        System.out.println("Enter the index of the event that needs to be found: ");
         Scanner scanner = new Scanner(System.in);
         int index = scanner.nextInt();
         index--;
-        System.out.printf("类型：%-2s \n名称：%-3s \n等级：%-2s \n时间:%-12s \n地点：%-6s \n运动员：%-12s \n裁判员：%-36s \n结果：%-12s", events.get(index).style, events.get(index).event, events.get(index).level, events.get(index).time, events.get(index).place, GetReferees(events.get(index).referees), GetAthletes(events.get(index).athletes), GetResult(events.get(index).athletes));
+        System.out.printf("Type: %-2s \nEvent name: %-3s \nLevel: %-2s \nTime: %-12s \nPlace: %-6s \nAthletes: %-12s \nReferees: %-36s \nResult: %-12s", events.get(index).type, events.get(index).event, events.get(index).level, events.get(index).time, events.get(index).place, GetReferees(events.get(index).referees), GetAthletes(events.get(index).athletes), GetResult(events.get(index).athletes));
         CheckEvents();
     }
 
@@ -563,12 +563,12 @@ public class Main {
                 bestAthlete = athlete;
             }
         }
-        return "全场最佳：" + bestAthlete.name + "， 成绩：" + bestAthlete.score;
+        return "Champion：" + bestAthlete.name + "， Score：" + bestAthlete.score;
     }
 }
 
 class Event extends Time implements Serializable {
-    String style;
+    String type;
     String event;
     String level;
     Time time;
@@ -577,7 +577,7 @@ class Event extends Time implements Serializable {
     ArrayList<Referee> referees = new ArrayList<>();
     Event (String s, String e, String l, Time t, String p) {
         super(t);
-        style = s;
+        type = s;
         event = e;
         level = l;
         time = t;
