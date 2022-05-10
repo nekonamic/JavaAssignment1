@@ -14,7 +14,7 @@ public class Main {
         VVelcome();
         Selection();
         System.out.println("------------------------------");
-        System.out.println("Welcome to use Sports Competition information system");
+        System.out.println("Welcome Sports Competition information system");
         System.out.println("Enter any key to continue...");
         System.out.println("------------------------------");
         Scanner scanner = new Scanner(System.in);
@@ -111,7 +111,7 @@ public class Main {
         System.out.println("Added successfully");
         System.out.println("Enter any key to return to upper level...");
         scanner.next();
-        CheckEvents();
+        Selection();
     }
 
     private static void AddAthlete () {
@@ -131,7 +131,7 @@ public class Main {
         System.out.println("Added successfully");
         System.out.println("Enter any key to return to upper level...");
         scanner.next();
-        CheckEvents();
+        Selection();
     }
 
     private static void AddReferee () {
@@ -145,7 +145,7 @@ public class Main {
         System.out.println("Added successfully");
         System.out.println("Enter any key to return to upper level...");
         scanner.next();
-        CheckEvents();
+        Selection();
     }
 
     private static void AddAthleteForEvent () {
@@ -159,7 +159,7 @@ public class Main {
         eventIndex--;
         while (continueAdd) {
             System.out.println("------------------------------------------------------------");
-            System.out.printf("%-3s %-12s %-12s %-8s %-24s %-6s", "index", "name", "grade", "sex", "event", "score");
+            System.out.printf("%-8s %-12s %-12s %-8s %-24s %-6s", "index", "name", "grade", "sex", "event", "score");
             System.out.println("\n------------------------------------------------------------");
             for (Athlete athlete : athletes) {
                 if (athlete.event.equals(events.get(eventIndex).event)) {
@@ -194,7 +194,7 @@ public class Main {
         eventIndex--;
         while (continueAdd) {
             System.out.println("------------------------------");
-            System.out.printf("%-3s %-12s %-24s", "index", "name", "event");
+            System.out.printf("%-8s %-12s %-24s", "index", "name", "event");
             System.out.println("\n------------------------------");
             for (Referee referee : referees) {
                 if (referee.event.equals(events.get(eventIndex).event)){
@@ -226,7 +226,7 @@ public class Main {
 
     private static void VVelcome () {
         System.out.println("------------------------------");
-        System.out.println("Welcome to Sports Competition information system");
+        System.out.println("Welcome Sports Competition information system");
         System.out.println("Enter any key to continue...");
         System.out.println("------------------------------");
         Scanner scanner = new Scanner(System.in);
@@ -259,10 +259,10 @@ public class Main {
     private static void CheckEvents () {
         int i = 1;
         System.out.println("------------------------------------------------------------------------------------------");
-        System.out.printf("%-3s %-12s %-12s %-8s %-24s %-12s %-24s %-72s", "index", "type", "event", "grade", "time", "place", "referees", "athletes");
+        System.out.printf("%-8s %-12s %-12s %-8s %-24s %-24s %-24s %-72s", "index", "type", "event", "grade", "time", "place", "referees", "athletes");
         System.out.println("\n------------------------------------------------------------------------------------------");
         for (Event event : events) {
-            System.out.printf("%-3s %-12s %-12s %-8s %-24s %-12s %-24s %-72s", i, event.type, event.event, event.level, event.time, event.place, GetReferees(event.referees), GetAthletes(event.athletes));
+            System.out.printf("%-8s %-12s %-12s %-8s %-24s %-24s %-24s %-72s", i, event.type, event.event, event.level, event.time, event.place, GetReferees(event.referees), GetAthletes(event.athletes));
             i++;
         }
         System.out.println("\n------------------------------------------------------------------------------------------");
@@ -271,7 +271,7 @@ public class Main {
         System.out.println("3. Sort by level");
         System.out.println("4. Sort by time");
         System.out.println("5. Sort by place");
-        System.out.println("6. CHeck result of event");
+        System.out.println("6. Check result of event");
         System.out.println("7. Add athlete");
         System.out.println("8. Add referee");
         System.out.println("9. Add event");
@@ -296,10 +296,10 @@ public class Main {
     private static void CheckAthletes () {
         int i = 1;
         System.out.println("------------------------------------------------------------");
-        System.out.printf("%-3s %-12s %-12s %-8s %-24s %-6s", "index", "name", "grade", "sex", "event", "score");
+        System.out.printf("%-8s %-12s %-12s %-8s %-24s %-6s", "index", "name", "grade", "sex", "event", "score");
         System.out.println("\n------------------------------------------------------------");
         for (Athlete athlete : athletes) {
-            System.out.printf("%-3s %-12s %-12s %-8s %-24s %-6s", i, athlete.name, athlete.grade, athlete.sex, athlete.event, athlete.score);
+            System.out.printf("%-8s %-12s %-12s %-8s %-24s %-6s", i, athlete.name, athlete.grade, athlete.sex, athlete.event, athlete.score);
             i++;
         }
         System.out.println("\n------------------------------------------------------------");
@@ -327,10 +327,10 @@ public class Main {
     private static void CheckReferees () {
         int i = 0;
         System.out.println("------------------------------");
-        System.out.printf("%-12s %-24s", "name", "event");
+        System.out.printf("%-8s %-12s %-24s", "index", "name", "event");
         System.out.println("\n------------------------------");
         for (Referee referee : referees) {
-            System.out.printf("%-3d %-12s %-24s", i, referee.name, referee.event);
+            System.out.printf("%-8d %-12s %-24s", i, referee.name, referee.event);
             i++;
         }
         System.out.println("\n------------------------------");
@@ -536,7 +536,10 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int index = scanner.nextInt();
         index--;
-        System.out.printf("Type: %-2s \nEvent name: %-3s \nLevel: %-2s \nTime: %-12s \nPlace: %-6s \nAthletes: %-12s \nReferees: %-36s \nResult: %-12s", events.get(index).type, events.get(index).event, events.get(index).level, events.get(index).time, events.get(index).place, GetReferees(events.get(index).referees), GetAthletes(events.get(index).athletes), GetResult(events.get(index).athletes));
+        System.out.printf("Type: %-8s \nEvent name: %-12s \nLevel: %-8s \nTime: %-24s \nPlace: %-12s \nReferees: %-24s \nAthletes: %-72s \nResult: %-24s \n", events.get(index).type, events.get(index).event, events.get(index).level, events.get(index).time, events.get(index).place, GetReferees(events.get(index).referees), GetAthletes(events.get(index).athletes), GetResult(events.get(index).athletes));
+        System.out.println("Check successfully");
+        System.out.println("Enter any key to continue...");
+        scanner.next();
         CheckEvents();
     }
 
@@ -563,7 +566,7 @@ public class Main {
                 bestAthlete = athlete;
             }
         }
-        return "Champion：" + bestAthlete.name + "， Score：" + bestAthlete.score;
+        return "\n\tChampion：" + bestAthlete.name + "\n\tScore：" + bestAthlete.score;
     }
 }
 
