@@ -1,11 +1,16 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
     private static final ArrayList<Event> events = new ArrayList<>();
     private static final ArrayList<Athlete> athletes = new ArrayList<>();
     private static final ArrayList<Referee> referees = new ArrayList<>();
+    private static final ArrayList<String > menTracks = new ArrayList<>();
+    private static final ArrayList<String > womenTracks = new ArrayList<>();
+    private static final ArrayList<String > menFields = new ArrayList<>();
+    private static final ArrayList<String > womenFields = new ArrayList<>();
 
     public static void main (String[] args) {
         ReadEvents();
@@ -13,6 +18,10 @@ public class Main {
         ReadReferees();
         VVelcome();
         Selection();
+        menTracks.addAll(Arrays.asList("men's 100m", "men's 1000m", "men's 3000m, men's 5000m", "men's relay 4*100m", "men's relay 4*400m"));
+        womenTracks.addAll(Arrays.asList("woman's 100m", "woman's 1000m", "woman's 3000m, woman's 5000m", "woman's relay 4*100m", "woman's relay 4*400m"));
+        menFields.addAll(Arrays.asList("men's long jump", "men's shot put", "men's javelin", "men's discus", "men's hammer"));
+        womenFields.addAll(Arrays.asList("men's long jump", "men's shot put", "men's javelin", "men's discus", "men's hammer"));
         System.out.println("------------------------------");
         System.out.println("Welcome Sports Competition information system");
         System.out.println("Enter any key to continue...");
@@ -87,11 +96,31 @@ public class Main {
 
     private static void AddEvent () {
         Scanner scanner = new Scanner(System.in);
-        String type, event, level, place;
+        String type = "", event, level, place;
+        String sex = "";
         int year, month, day, hour, minute;
-        System.out.println("Enter type: ");
-        type = scanner.next();
-        System.out.println("Enter event name: ");
+        int i = 1;
+        System.out.println("Type of the event: ");
+        System.out.println("1. Track");
+        System.out.println("2. Field");
+        System.out.println("Enter the index of the type: ");
+        switch (scanner.nextInt()) {
+            case 1 -> type = "Track";
+            case 2 -> type = "Field";
+        }
+        System.out.println("Sex of the event: ");
+        System.out.println("1. Men");
+        System.out.println("2. Women");
+        System.out.println("Enter the index of the sex: ");
+        switch (scanner.nextInt()) {
+            case 1 -> sex = "Men";
+            case 2 -> sex = "Women";
+        }
+        if (sex.equals("Men") || type.equals("Track")) {
+            for (String _event_ : menTracks) {
+                System.out.println(i + " " + _event_);
+            }
+        }
         event = scanner.next();
         System.out.println("Enter level: ");
         level = scanner.next();
@@ -163,11 +192,11 @@ public class Main {
             System.out.println("\n------------------------------------------------------------");
             for (Athlete athlete : athletes) {
                 if (athlete.event.equals(events.get(eventIndex).event)) {
-                    System.out.printf("%-3s %-12s %-12s %-8s %-24s %-6s", i, athlete.name, athlete.grade, athlete.sex, athlete.event, athlete.score);
+                    System.out.printf("%-3s %-12s %-12s %-8s %-24s %-6s\n", i, athlete.name, athlete.grade, athlete.sex, athlete.event, athlete.score);
                     i++;
                 }
             }
-            System.out.println("\n------------------------------------------------------------");
+            System.out.println("------------------------------------------------------------");
             System.out.println("Enter the index of the athlete who needs to join the event: ");
             int addedAthlete = scanner.nextInt();
             addedAthlete--;
@@ -198,11 +227,11 @@ public class Main {
             System.out.println("\n------------------------------");
             for (Referee referee : referees) {
                 if (referee.event.equals(events.get(eventIndex).event)){
-                    System.out.printf("%-3s %-12s %-24s", i, referee.name, referee.event);
+                    System.out.printf("%-3s %-12s %-24s\n", i, referee.name, referee.event);
                     i++;
                 }
             }
-            System.out.println("\n------------------------------");
+            System.out.println("------------------------------");
             System.out.println("Enter the index of the referee who needs to join the event: ");
             int addedReferee = scanner.nextInt();
             addedReferee--;
@@ -262,10 +291,10 @@ public class Main {
         System.out.printf("%-8s %-12s %-12s %-8s %-24s %-24s %-24s %-72s", "index", "type", "event", "grade", "time", "place", "referees", "athletes");
         System.out.println("\n------------------------------------------------------------------------------------------");
         for (Event event : events) {
-            System.out.printf("%-8s %-12s %-12s %-8s %-24s %-24s %-24s %-72s", i, event.type, event.event, event.level, event.time, event.place, GetReferees(event.referees), GetAthletes(event.athletes));
+            System.out.printf("%-8s %-12s %-12s %-8s %-24s %-24s %-24s %-72s\n", i, event.type, event.event, event.level, event.time, event.place, GetReferees(event.referees), GetAthletes(event.athletes));
             i++;
         }
-        System.out.println("\n------------------------------------------------------------------------------------------");
+        System.out.println("------------------------------------------------------------------------------------------");
         System.out.println("1. Sort by type");
         System.out.println("2. Sort by event");
         System.out.println("3. Sort by level");
@@ -299,10 +328,10 @@ public class Main {
         System.out.printf("%-8s %-12s %-12s %-8s %-24s %-6s", "index", "name", "grade", "sex", "event", "score");
         System.out.println("\n------------------------------------------------------------");
         for (Athlete athlete : athletes) {
-            System.out.printf("%-8s %-12s %-12s %-8s %-24s %-6s", i, athlete.name, athlete.grade, athlete.sex, athlete.event, athlete.score);
+            System.out.printf("%-8s %-12s %-12s %-8s %-24s %-6s\n", i, athlete.name, athlete.grade, athlete.sex, athlete.event, athlete.score);
             i++;
         }
-        System.out.println("\n------------------------------------------------------------");
+        System.out.println("------------------------------------------------------------");
         System.out.println("1. Sort by name");
         System.out.println("2. Sort by grade");
         System.out.println("3. SOrt by sex");
@@ -330,10 +359,10 @@ public class Main {
         System.out.printf("%-8s %-12s %-24s", "index", "name", "event");
         System.out.println("\n------------------------------");
         for (Referee referee : referees) {
-            System.out.printf("%-8d %-12s %-24s", i, referee.name, referee.event);
+            System.out.printf("%-8d %-12s %-24s\n", i, referee.name, referee.event);
             i++;
         }
-        System.out.println("\n------------------------------");
+        System.out.println("------------------------------");
         System.out.println("1. SOrt by name");
         System.out.println("2. SOrt by event");
         System.out.println("3. Add referee");
