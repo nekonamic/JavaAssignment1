@@ -13,15 +13,15 @@ public class Main {
     private static final ArrayList<String > womenFields = new ArrayList<>();
 
     public static void main (String[] args) {
+        menTracks.addAll(Arrays.asList("men's 100m", "men's 1000m", "men's 3000m, men's 5000m", "men's relay 4*100m", "men's relay 4*400m"));
+        womenTracks.addAll(Arrays.asList("woman's 100m", "woman's 1000m", "woman's 3000m, woman's 5000m", "woman's relay 4*100m", "woman's relay 4*400m"));
+        menFields.addAll(Arrays.asList("men's long jump", "men's shot put", "men's javelin", "men's discus", "men's hammer"));
+        womenFields.addAll(Arrays.asList("men's long jump", "men's shot put", "men's javelin", "men's discus", "men's hammer"));
         ReadEvents();
         ReadAthletes();
         ReadReferees();
         VVelcome();
         Selection();
-        menTracks.addAll(Arrays.asList("men's 100m", "men's 1000m", "men's 3000m, men's 5000m", "men's relay 4*100m", "men's relay 4*400m"));
-        womenTracks.addAll(Arrays.asList("woman's 100m", "woman's 1000m", "woman's 3000m, woman's 5000m", "woman's relay 4*100m", "woman's relay 4*400m"));
-        menFields.addAll(Arrays.asList("men's long jump", "men's shot put", "men's javelin", "men's discus", "men's hammer"));
-        womenFields.addAll(Arrays.asList("men's long jump", "men's shot put", "men's javelin", "men's discus", "men's hammer"));
         System.out.println("------------------------------");
         System.out.println("Welcome Sports Competition information system");
         System.out.println("Enter any key to continue...");
@@ -96,7 +96,7 @@ public class Main {
 
     private static void AddEvent () {
         Scanner scanner = new Scanner(System.in);
-        String type = "", event, level, place;
+        String type = "", event = "", level, place;
         String sex = "";
         int year, month, day, hour, minute;
         int i = 1;
@@ -116,12 +116,32 @@ public class Main {
             case 1 -> sex = "Men";
             case 2 -> sex = "Women";
         }
-        if (sex.equals("Men") || type.equals("Track")) {
+        System.out.println("Enter the index of the event: ");
+        if (sex.equals("Men") && type.equals("Track")) {
             for (String _event_ : menTracks) {
                 System.out.println(i + " " + _event_);
+                i++;
             }
+            event = menTracks.get(scanner.nextInt() - 1);
+        } else if (sex.equals("Men") && type.equals("Field")) {
+            for (String _event_ : menFields) {
+                System.out.println(i + " " + _event_);
+                i++;
+            }
+            event = menFields.get(scanner.nextInt() - 1);
+        } else if (sex.equals("Women") && type.equals("Track")) {
+            for (String _event_ : womenTracks) {
+                System.out.println(i + " " + _event_);
+                i++;
+            }
+            event = womenTracks.get(scanner.nextInt() - 1);
+        } else if (sex.equals("Women") && type.equals("Field")) {
+            for (String _event_ : womenFields) {
+                System.out.println(i + " " + _event_);
+                i++;
+            }
+            event = womenFields.get(scanner.nextInt() - 1);
         }
-        event = scanner.next();
         System.out.println("Enter level: ");
         level = scanner.next();
         System.out.println("Enter place: ");
@@ -145,15 +165,54 @@ public class Main {
 
     private static void AddAthlete () {
         Scanner scanner = new Scanner(System.in);
-        String name, event, grade, sex, score;
+        int i = 1;
+        String name, event = "", grade, sex = "", score, type = "";
         System.out.println("Enter name: ");
         name = scanner.next();
-        System.out.println("Enter event: ");
-        event = scanner.next();
+        System.out.println("Type of the event: ");
+        System.out.println("1. Track");
+        System.out.println("2. Field");
+        System.out.println("Enter the index of the type: ");
+        switch (scanner.nextInt()) {
+            case 1 -> type = "Track";
+            case 2 -> type = "Field";
+        }
+        System.out.println("Sex of the event: ");
+        System.out.println("1. Men");
+        System.out.println("2. Women");
+        System.out.println("Enter the index of the sex: ");
+        switch (scanner.nextInt()) {
+            case 1 -> sex = "Men";
+            case 2 -> sex = "Women";
+        }
+        System.out.println("Enter the index of the event: ");
+        if (sex.equals("Men") && type.equals("Track")) {
+            for (String _event_ : menTracks) {
+                System.out.println(i + " " + _event_);
+                i++;
+            }
+            event = menTracks.get(scanner.nextInt() - 1);
+        } else if (sex.equals("Men") && type.equals("Field")) {
+            for (String _event_ : menFields) {
+                System.out.println(i + " " + _event_);
+                i++;
+            }
+            event = menFields.get(scanner.nextInt() - 1);
+        } else if (sex.equals("Women") && type.equals("Track")) {
+            for (String _event_ : womenTracks) {
+                System.out.println(i + " " + _event_);
+                i++;
+            }
+            event = womenTracks.get(scanner.nextInt() - 1);
+        } else if (sex.equals("Women") && type.equals("Field")) {
+            for (String _event_ : womenFields) {
+                System.out.println(i + " " + _event_);
+                i++;
+            }
+            event = womenFields.get(scanner.nextInt() - 1);
+        }
         System.out.println("Enter grade: ");
         grade = scanner.next();
-        System.out.println("Enter sex: ");
-        sex = scanner.next();
         System.out.println("Enter score (percentile): ");
         score = scanner.next();
         athletes.add(new Athlete(name, event, grade, sex, score));
@@ -164,12 +223,53 @@ public class Main {
     }
 
     private static void AddReferee () {
+        int i = 1;
         Scanner scanner = new Scanner(System.in);
-        String name, event;
+        String name, event = "", type = "", sex = "";
         System.out.println("Enter name: ");
         name = scanner.next();
-        System.out.println("Enter event: ");
-        event = scanner.next();
+        System.out.println("Type of the event: ");
+        System.out.println("1. Track");
+        System.out.println("2. Field");
+        System.out.println("Enter the index of the type: ");
+        switch (scanner.nextInt()) {
+            case 1 -> type = "Track";
+            case 2 -> type = "Field";
+        }
+        System.out.println("Sex of the event: ");
+        System.out.println("1. Men");
+        System.out.println("2. Women");
+        System.out.println("Enter the index of the sex: ");
+        switch (scanner.nextInt()) {
+            case 1 -> sex = "Men";
+            case 2 -> sex = "Women";
+        }
+        System.out.println("Enter the index of the event: ");
+        if (sex.equals("Men") && type.equals("Track")) {
+            for (String _event_ : menTracks) {
+                System.out.println(i + " " + _event_);
+                i++;
+            }
+            event = menTracks.get(scanner.nextInt() - 1);
+        } else if (sex.equals("Men") && type.equals("Field")) {
+            for (String _event_ : menFields) {
+                System.out.println(i + " " + _event_);
+                i++;
+            }
+            event = menFields.get(scanner.nextInt() - 1);
+        } else if (sex.equals("Women") && type.equals("Track")) {
+            for (String _event_ : womenTracks) {
+                System.out.println(i + " " + _event_);
+                i++;
+            }
+            event = womenTracks.get(scanner.nextInt() - 1);
+        } else if (sex.equals("Women") && type.equals("Field")) {
+            for (String _event_ : womenFields) {
+                System.out.println(i + " " + _event_);
+                i++;
+            }
+            event = womenFields.get(scanner.nextInt() - 1);
+        }
         referees.add(new Referee(name, event));
         System.out.println("Added successfully");
         System.out.println("Enter any key to return to upper level...");
