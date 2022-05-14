@@ -1,35 +1,41 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Main {
-    private static final ArrayList<Event> events = new ArrayList<>();
-    private static final ArrayList<Athlete> athletes = new ArrayList<>();
-    private static final ArrayList<Referee> referees = new ArrayList<>();
-    private static final ArrayList<String > menTracks = new ArrayList<>();
-    private static final ArrayList<String > womenTracks = new ArrayList<>();
-    private static final ArrayList<String > menFields = new ArrayList<>();
-    private static final ArrayList<String > womenFields = new ArrayList<>();
+    private static final ArrayList<Event> events = new ArrayList<>(); //Save data of events
+    private static final ArrayList<Athlete> athletes = new ArrayList<>(); //Save data of athletes
+    private static final ArrayList<Referee> referees = new ArrayList<>(); //Save data of referees
+    private static final ArrayList<String > menTracks = new ArrayList<>(); //Save name of men's track events
+    private static final ArrayList<String > womenTracks = new ArrayList<>(); //Save name of women's track events
+    private static final ArrayList<String > menFields = new ArrayList<>(); //Save name of men's field events
+    private static final ArrayList<String > womenFields = new ArrayList<>();// Save name of women's field events
 
-    public static void main (String[] args) {
-        menTracks.addAll(Arrays.asList("men's 100m", "men's 1000m", "men's 3000m, men's 5000m", "men's relay 4*100m", "men's relay 4*400m"));
-        womenTracks.addAll(Arrays.asList("woman's 100m", "woman's 1000m", "woman's 3000m, woman's 5000m", "woman's relay 4*100m", "woman's relay 4*400m"));
+    public static void main (String[] args) throws ParseException {
+        // Initialize various kinds of events
+        menTracks.addAll(Arrays.asList("men's 100m", "men's 1000m", "men's 3000m", "men's 5000m", "men's relay 4*100m", "men's relay 4*400m"));
+        womenTracks.addAll(Arrays.asList("woman's 100m", "woman's 1000m", "woman's 3000m", "woman's 5000m", "woman's relay 4*100m", "woman's relay 4*400m"));
         menFields.addAll(Arrays.asList("men's long jump", "men's shot put", "men's javelin", "men's discus", "men's hammer"));
-        womenFields.addAll(Arrays.asList("men's long jump", "men's shot put", "men's javelin", "men's discus", "men's hammer"));
+        womenFields.addAll(Arrays.asList("woman's long jump", "woman's shot put", "woman's javelin", "woman's discus", "woman's hammer"));
+        // Read data from files
         ReadEvents();
         ReadAthletes();
         ReadReferees();
+        // Show welcome interface
         VVelcome();
+        // Show selection interface
         Selection();
+        // Show farewell interface
         System.out.println("------------------------------");
-        System.out.println("Welcome Sports Competition information system");
+        System.out.println("Thank You For You Use Sports Competition information system");
         System.out.println("Enter any key to continue...");
         System.out.println("------------------------------");
         Scanner scanner = new Scanner(System.in);
         scanner.next();
     }
 
+    // Read events data from file
     private static void ReadEvents () {
         try {
             FileInputStream fileInputStream = new FileInputStream("src/events.ser");
@@ -40,6 +46,7 @@ public class Main {
         } catch (IOException | ClassNotFoundException ignored) {}
     }
 
+    // Read athletes data from file
     private static void ReadAthletes () {
         try {
             FileInputStream fileInputStream = new FileInputStream("src/athletes.ser");
@@ -51,6 +58,7 @@ public class Main {
 
     }
 
+    // Read referees data from file
     private static void ReadReferees () {
         try {
             FileInputStream fileInputStream = new FileInputStream("src/referees.ser");
@@ -62,6 +70,7 @@ public class Main {
 
     }
 
+    // Write events data from file
     private static void WriteEvents () {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream("src/events.ser");
@@ -72,6 +81,7 @@ public class Main {
         } catch (IOException ignored) {}
     }
 
+    // Write athletes data from file
     private static void WriteAthletes () {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream("src/athletes.ser");
@@ -83,6 +93,7 @@ public class Main {
 
     }
 
+    // Write referees data from file
     private static void WriteReferees () {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream("src/referees.ser");
@@ -94,11 +105,11 @@ public class Main {
 
     }
 
-    private static void AddEvent () {
+    // Add event for arraylist events
+    private static void AddEvent () throws ParseException {
         Scanner scanner = new Scanner(System.in);
         String type = "", event = "", level, place;
         String sex = "";
-        int year, month, day, hour, minute;
         int i = 1;
         System.out.println("Type of the event: ");
         System.out.println("1. Track");
@@ -146,24 +157,17 @@ public class Main {
         level = scanner.next();
         System.out.println("Enter place: ");
         place = scanner.next();
-        System.out.println("Enter year: ");
-        year = scanner.nextInt();
-        System.out.println("Enter month: ");
-        month = scanner.nextInt();
-        System.out.println("Enter day: ");
-        day = scanner.nextInt();
-        System.out.println("Enter hour: ");
-        hour = scanner.nextInt();
-        System.out.println("Enter minute: ");
-        minute = scanner.nextInt();
-        events.add(new Event(type, event, level, new Time(year, month, day, hour, minute), place));
+        System.out.println("Enter date (yyyy-MM-dd/HH:mm:ss): ");
+        Date date = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss").parse(new Scanner(System.in).next());
+        events.add(new Event(type, event, level, date, place));
         System.out.println("Added successfully");
         System.out.println("Enter any key to return to upper level...");
         scanner.next();
         Selection();
     }
 
-    private static void AddAthlete () {
+    // Add athlete for arraylist athletes
+    private static void AddAthlete () throws ParseException {
         Scanner scanner = new Scanner(System.in);
         int i = 1;
         String name, event = "", grade, sex = "", score, type = "";
@@ -222,7 +226,8 @@ public class Main {
         Selection();
     }
 
-    private static void AddReferee () {
+    // Add referee for arraylist referees
+    private static void AddReferee () throws ParseException {
         int i = 1;
         Scanner scanner = new Scanner(System.in);
         String name, event = "", type = "", sex = "";
@@ -277,7 +282,8 @@ public class Main {
         Selection();
     }
 
-    private static void AddAthleteForEvent () {
+    // Add athlete from athletes arraylist events for event in arraylist events
+    private static void AddAthleteForEvent () throws ParseException {
         String continueString;
         int i = 1;
         Event temp;
@@ -312,7 +318,8 @@ public class Main {
         CheckEvents();
     }
 
-    private static void AddRefereeForEvent () {
+    // Add referee from arraylist referees events for event in arraylist events
+    private static void AddRefereeForEvent () throws ParseException {
         String continueString;
         int i = 1;
         Event temp;
@@ -347,12 +354,14 @@ public class Main {
         CheckEvents();
     }
 
+    //  Call functions to save all arraylist data to file
     private static void SaveAll () {
         WriteEvents();
         WriteAthletes();
         WriteReferees();
     }
 
+    // Welcome interface
     private static void VVelcome () {
         System.out.println("------------------------------");
         System.out.println("Welcome Sports Competition information system");
@@ -362,7 +371,8 @@ public class Main {
         scanner.next();
     }
 
-    private static void Selection () {
+    // Select operation interface
+    private static void Selection () throws ParseException {
         System.out.println("------------------------------");
         System.out.println("1. Check events");
         System.out.println("2. Check athletes");
@@ -385,36 +395,37 @@ public class Main {
         }
     }
 
-    private static void CheckEvents () {
+    // Show all event in arraylist events
+    private static void CheckEvents () throws ParseException {
         int i = 1;
         System.out.println("------------------------------------------------------------------------------------------");
-        System.out.printf("%-8s %-12s %-12s %-8s %-24s %-24s %-24s %-72s", "index", "type", "event", "grade", "time", "place", "referees", "athletes");
+        System.out.printf("%-8s %-12s %-24s %-8s %-36s %-24s %-24s %-72s", "index", "type", "event", "level", "time", "place", "referees", "athletes");
         System.out.println("\n------------------------------------------------------------------------------------------");
         for (Event event : events) {
-            System.out.printf("%-8s %-12s %-12s %-8s %-24s %-24s %-24s %-72s\n", i, event.type, event.event, event.level, event.time, event.place, GetReferees(event.referees), GetAthletes(event.athletes));
+            System.out.printf("%-8s %-12s %-24s %-8s %-36s %-24s %-24s %-72s\n", i, event.type, event.event, event.level, event.date, event.place, GetReferees(event.referees), GetAthletes(event.athletes));
             i++;
         }
         System.out.println("------------------------------------------------------------------------------------------");
         System.out.println("1. Sort by type");
         System.out.println("2. Sort by event");
         System.out.println("3. Sort by level");
-        System.out.println("4. Sort by time");
-        System.out.println("5. Sort by place");
-        System.out.println("6. Check result of event");
-        System.out.println("7. Add athlete");
-        System.out.println("8. Add referee");
+        System.out.println("4. Sort by place");
+        System.out.println("5. Check result of event");
+        System.out.println("6. Events by time period");
+        System.out.println("7. Add athlete for  the event");
+        System.out.println("8. Add referee for the event");
         System.out.println("9. Add event");
         System.out.println("0. return to upper level");
         System.out.println("------------------------------------------------------------------------------------------");
         Scanner scanner = new Scanner(System.in);
         int choice = scanner.nextInt();
         switch (choice) {
-            case 1 -> EventsSortByStyle();
+            case 1 -> EventsSortByType();
             case 2 -> EventsSortByEvent();
             case 3 -> EventsSortByLevel();
-            case 4 -> EventsSortByTime();
-            case 5 -> EventSortByPlace();
-            case 6 -> CheckInformation();
+            case 4 -> EventSortByPlace();
+            case 5 -> CheckInformation();
+            case 6 -> EventsByTimePeriod();
             case 7 -> AddAthleteForEvent();
             case 8 -> AddRefereeForEvent();
             case 9 -> AddEvent();
@@ -422,7 +433,8 @@ public class Main {
         }
     }
 
-    private static void CheckAthletes () {
+    // Show all athlete in arraylist athletes
+    private static void CheckAthletes () throws ParseException {
         int i = 1;
         System.out.println("------------------------------------------------------------");
         System.out.printf("%-8s %-12s %-12s %-8s %-24s %-6s", "index", "name", "grade", "sex", "event", "score");
@@ -453,7 +465,8 @@ public class Main {
         }
     }
 
-    private static void CheckReferees () {
+    // Show all referee in arraylist referees
+    private static void CheckReferees () throws ParseException {
         int i = 0;
         System.out.println("------------------------------");
         System.out.printf("%-8s %-12s %-24s", "index", "name", "event");
@@ -478,24 +491,11 @@ public class Main {
         }
     }
 
-    private static boolean FormerLatterThanLatter (Event formerEvent,Event laterEvent) {
-        if (formerEvent.year != laterEvent.year) {
-            return formerEvent.year > laterEvent.year;
-        } else if (formerEvent.month != laterEvent.month) {
-            return formerEvent.month > laterEvent.month;
-        } else if (formerEvent.day != laterEvent.day) {
-            return formerEvent.day > laterEvent.day;
-        } else if (formerEvent.hour != laterEvent.hour) {
-            return formerEvent.hour > laterEvent.hour;
-        } else {
-            return formerEvent.minute > laterEvent.minute;
-        }
-    }
-
-    private static void EventsSortByStyle () {
+    // Sort event in arraylist events by type of event
+    private static void EventsSortByType () throws ParseException {
         Event temp;
         for (int i=0; i<events.size() - 1; i++) {
-            for (int j=i+1; j<events.size(); j++) {
+            for (int j=i+1; j<events.size() - 1; j++) {
                 if (events.get(i).type.compareTo(events.get(j).type) > 0) {
                     temp = events.get(j);
                     events.set(j, events.get(j + 1));
@@ -506,10 +506,11 @@ public class Main {
         CheckEvents();
     }
 
-    private static void EventsSortByEvent () {
+    // Sort event in arraylist events by name of event
+    private static void EventsSortByEvent () throws ParseException {
         Event temp;
         for (int i=0; i<events.size() - 1; i++) {
-            for (int j=i+1; j<events.size(); j++) {
+            for (int j=i+1; j<events.size() - 1; j++) {
                 if (events.get(i).event.compareTo(events.get(j).event) > 0) {
                     temp = events.get(j);
                     events.set(j, events.get(j + 1));
@@ -520,10 +521,11 @@ public class Main {
         CheckEvents();
     }
 
-    private static void EventsSortByLevel () {
+    // Sort event in arraylist events by level of event
+    private static void EventsSortByLevel () throws ParseException {
         Event temp;
         for (int i=0; i<events.size() - 1; i++) {
-            for (int j=i+1; j<events.size(); j++) {
+            for (int j=i+1; j<events.size() - 1; j++) {
                 if (events.get(i).level.compareTo(events.get(j).level) > 0) {
                     temp = events.get(j);
                     events.set(j, events.get(j + 1));
@@ -534,24 +536,11 @@ public class Main {
         CheckEvents();
     }
 
-    private static void EventsSortByTime () {
+    // Sort event in arraylist events by place of event
+    private static void EventSortByPlace () throws ParseException {
         Event temp;
         for (int i=0; i<events.size() - 1; i++) {
-            for (int j=0; j<events.size() - 1 - i; j++) {
-                if (FormerLatterThanLatter(events.get(j), events.get(j + 1))) {
-                    temp = events.get(j);
-                    events.set(j, events.get(j + 1));
-                    events.set(j + 1, temp);
-                }
-            }
-        }
-        CheckEvents();
-    }
-
-    private static void EventSortByPlace () {
-        Event temp;
-        for (int i=0; i<events.size() - 1; i++) {
-            for (int j=i+1; j<events.size(); j++) {
+            for (int j=i+1; j<events.size() - 1; j++) {
                 if (events.get(i).place.compareTo(events.get(j).place) > 0) {
                     temp = events.get(j);
                     events.set(j, events.get(j + 1));
@@ -562,10 +551,11 @@ public class Main {
         CheckEvents();
     }
 
-    private static void AthletesSortByName () {
+    // Sort athlete in arraylist athletes by name of athlete
+    private static void AthletesSortByName () throws ParseException {
         Athlete temp;
         for (int i=0; i<athletes.size() - 1; i++) {
-            for (int j=i+1; j<athletes.size(); j++) {
+            for (int j=i+1; j<athletes.size() - 1; j++) {
                 if (athletes.get(i).name.compareTo(athletes.get(j).name) > 0) {
                     temp = athletes.get(j);
                     athletes.set(j, athletes.get(j + 1));
@@ -576,10 +566,11 @@ public class Main {
         CheckAthletes();
     }
 
-    private static void AthletesSortByGrade () {
+    // Sort athlete in arraylist athletes by grade of athlete
+    private static void AthletesSortByGrade () throws ParseException {
         Athlete temp;
         for (int i=0; i<athletes.size() - 1; i++) {
-            for (int j=i+1; j<athletes.size(); j++) {
+            for (int j=i+1; j<athletes.size() - 1; j++) {
                 if (athletes.get(i).grade.compareTo(athletes.get(j).grade) > 0) {
                     temp = athletes.get(j);
                     athletes.set(j, athletes.get(j + 1));
@@ -590,10 +581,11 @@ public class Main {
         CheckAthletes();
     }
 
-    private static void AthletesSortBySex () {
+    // Sort athlete in arraylist athletes by sex of athlete
+    private static void AthletesSortBySex () throws ParseException {
         Athlete temp;
         for (int i=0; i<athletes.size() - 1; i++) {
-            for (int j=i+1; j<athletes.size(); j++) {
+            for (int j=i+1; j<athletes.size() - 1; j++) {
                 if (athletes.get(i).sex.compareTo(athletes.get(j).sex) > 0) {
                     temp = athletes.get(j);
                     athletes.set(j, athletes.get(j + 1));
@@ -604,10 +596,11 @@ public class Main {
         CheckAthletes();
     }
 
-    private static void AthletesSortByEvent () {
+    // Sort athlete in arraylist athletes by event of athlete
+    private static void AthletesSortByEvent () throws ParseException {
         Athlete temp;
         for (int i=0; i<athletes.size() - 1; i++) {
-            for (int j=i+1; j<athletes.size(); j++) {
+            for (int j=i+1; j<athletes.size() - 1; j++) {
                 if (athletes.get(i).event.compareTo(athletes.get(j).event) > 0) {
                     temp = athletes.get(j);
                     athletes.set(j, athletes.get(j + 1));
@@ -618,10 +611,11 @@ public class Main {
         CheckAthletes();
     }
 
-    private static void AthletesSortByScore () {
+    // Sort athlete in arraylist athletes by score of athlete
+    private static void AthletesSortByScore () throws ParseException {
         Athlete temp;
         for (int i=0; i<athletes.size() - 1; i++) {
-            for (int j=i+1; j<athletes.size(); j++) {
+            for (int j=i+1; j<athletes.size() - 1; j++) {
                 if (athletes.get(i).score.compareTo(athletes.get(j).score) > 0) {
                     temp = athletes.get(j);
                     athletes.set(j, athletes.get(j + 1));
@@ -632,10 +626,11 @@ public class Main {
         CheckAthletes();
     }
 
-    private static void RefereesSortByName () {
+    // Sort referee in arraylist referees by name of referee
+    private static void RefereesSortByName () throws ParseException {
         Referee temp;
         for (int i=0; i<referees.size() - 1; i++) {
-            for (int j=i+1; j<referees.size(); j++) {
+            for (int j=i+1; j<referees.size() - 1; j++) {
                 if (referees.get(i).name.compareTo(referees.get(j).name) > 0) {
                     temp = referees.get(j);
                     referees.set(j, referees.get(j + 1));
@@ -646,10 +641,11 @@ public class Main {
         CheckReferees();
     }
 
-    private static void RefereesSortByEvent () {
+    // Sort referee in arraylist referees by event of referee
+    private static void RefereesSortByEvent () throws ParseException {
         Referee temp;
         for (int i=0; i<referees.size() - 1; i++) {
-            for (int j=i+1; j<referees.size(); j++) {
+            for (int j=i+1; j<referees.size() - 1; j++) {
                 if (referees.get(i).event.compareTo(referees.get(j).event) > 0) {
                     temp = referees.get(j);
                     referees.set(j, referees.get(j + 1));
@@ -660,18 +656,63 @@ public class Main {
         CheckReferees();
     }
 
-    private static void CheckInformation () {
+    // Show detail information about the event, including result of event
+    private static void CheckInformation () throws ParseException {
         System.out.println("Enter the index of the event that needs to be found: ");
         Scanner scanner = new Scanner(System.in);
         int index = scanner.nextInt();
         index--;
-        System.out.printf("Type: %-8s \nEvent name: %-12s \nLevel: %-8s \nTime: %-24s \nPlace: %-12s \nReferees: %-24s \nAthletes: %-72s \nResult: %-24s \n", events.get(index).type, events.get(index).event, events.get(index).level, events.get(index).time, events.get(index).place, GetReferees(events.get(index).referees), GetAthletes(events.get(index).athletes), GetResult(events.get(index).athletes));
+        System.out.printf("Type: %-8s \nEvent name: %-12s \nLevel: %-8s \nTime: %-24s \nPlace: %-12s \nReferees: %-24s \nAthletes: %-72s \nResult: %-24s \n", events.get(index).type, events.get(index).event, events.get(index).level, events.get(index).date, events.get(index).place, GetReferees(events.get(index).referees), GetAthletes(events.get(index).athletes), GetResult(events.get(index).athletes));
         System.out.println("Check successfully");
         System.out.println("Enter any key to continue...");
         scanner.next();
         CheckEvents();
     }
 
+    // Show events in the custom time period
+    private static void EventsByTimePeriod () throws ParseException {
+        System.out.println("Enter the start date (yyyy-MM-dd/HH:mm:ss): ");
+        Date startDate = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss").parse(new Scanner(System.in).next());
+        System.out.println("Enter the end date (yyyy-MM-dd/HH:mm:ss): ");
+        Date endDate = new SimpleDateFormat("yyyy-MM-dd/HH:mm:ss").parse(new Scanner(System.in).next());
+        int index = 1;
+        System.out.println("Competitions during this period are: ");
+        System.out.println("------------------------------------------------------------------------------------------");
+        System.out.printf("%-8s %-12s %-24s %-8s %-36s %-24s %-24s %-72s", "index", "type", "event", "level", "time", "place", "referees", "athletes");
+        System.out.println("\n------------------------------------------------------------------------------------------");
+        for (Event event : events) {
+            if (inPeriod(event.date, startDate, endDate)) {
+                System.out.printf("%-8s %-12s %-24s %-8s %-36s %-24s %-24s %-72s\n", index, event.type, event.event, event.level, event.date, event.place, GetReferees(event.referees), GetAthletes(event.athletes));
+                index++;
+            }
+        }
+        System.out.println("------------------------------------------------------------------------------------------");
+        System.out.println("Enter any key to return to upper level ...");
+        Scanner scanner = new Scanner(System.in);
+        scanner.next();
+        CheckEvents();
+    }
+
+    // Estimate Whether the input event is in the custom time period
+    public static boolean inPeriod(Date nowTime, Date startTime, Date endTime) {
+        if (nowTime.getTime() == startTime.getTime()
+                || nowTime.getTime() == endTime.getTime()) {
+            return true;
+        }
+
+        Calendar date = Calendar.getInstance();
+        date.setTime(nowTime);
+
+        Calendar begin = Calendar.getInstance();
+        begin.setTime(startTime);
+
+        Calendar end = Calendar.getInstance();
+        end.setTime(endTime);
+
+        return date.after(begin) && date.before(end);
+    }
+
+    //Formatting output String of name of athlete in arraylist
     private static String GetAthletes (ArrayList<Athlete> athletes) {
         StringBuilder returnString = new StringBuilder();
         for (Athlete athlete : athletes) {
@@ -680,6 +721,7 @@ public class Main {
         return returnString.toString();
     }
 
+    //Formatting output String of name of referee in arraylist
     private static String GetReferees (ArrayList<Referee> referees) {
         StringBuilder returnString = new StringBuilder();
         for (Referee referee : referees) {
@@ -688,6 +730,7 @@ public class Main {
         return returnString.toString();
     }
 
+    //Formatting output String of result of event by athlete in arraylist
     private static String GetResult (ArrayList<Athlete> athletes) {
         Athlete bestAthlete = athletes.get(0);
         for (Athlete athlete : athletes) {
@@ -699,24 +742,28 @@ public class Main {
     }
 }
 
-class Event extends Time implements Serializable {
+// Define class event, including various information of event
+// Implement Serializable interface to save information more easily
+class Event implements Serializable {
     String type;
     String event;
     String level;
-    Time time;
+    Date date;
     String place;
     ArrayList<Athlete> athletes = new ArrayList<>();
     ArrayList<Referee> referees = new ArrayList<>();
-    Event (String s, String e, String l, Time t, String p) {
-        super(t);
+
+    Event (String s, String e, String l, Date d, String p) {
         type = s;
         event = e;
         level = l;
-        time = t;
+        date = d;
         place = p;
     }
 }
 
+// Define class athlete, including various information of athlete
+// Implement Serializable interface to save information more easily
 class Athlete implements Serializable{
     String name;
     String event;
@@ -733,6 +780,8 @@ class Athlete implements Serializable{
     }
 }
 
+// Define class referee, including various information of referee
+// Implement Serializable interface to save information more easily
 class Referee implements Serializable {
     String name;
     String event;
@@ -740,34 +789,5 @@ class Referee implements Serializable {
     Referee (String n, String e) {
         name = n;
         event = e;
-    }
-}
-
-class Time implements Serializable{
-    int year;
-    int month;
-    int day;
-    int hour;
-    int minute;
-
-    Time (Time time) {
-        year = time.year;
-        month = time.month;
-        day = time.day;
-        hour = time.hour;
-        minute = time.minute;
-    }
-
-    Time (int y, int m, int d, int h, int min) {
-        year = y;
-        month = m;
-        day = d;
-        hour = h;
-        minute = min;
-    }
-
-    @Override
-    public String toString() {
-        return year + "/" + month + "/" + day + " " + hour + ":" + minute;
     }
 }
