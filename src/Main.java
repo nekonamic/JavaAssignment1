@@ -286,6 +286,7 @@ public class Main {
     private static void AddAthleteForEvent () throws ParseException {
         String continueString;
         int i = 1;
+        int j = 0;
         Event temp;
         boolean continueAdd = true;
         System.out.println("Enter the index of the event that needs to add athlete: ");
@@ -305,10 +306,19 @@ public class Main {
             System.out.println("------------------------------------------------------------");
             System.out.println("Enter the index of the athlete who needs to join the event: ");
             int addedAthlete = scanner.nextInt();
-            addedAthlete--;
-            temp = events.get(eventIndex);
-            temp.athletes.add(athletes.get(addedAthlete));
-            events.set(eventIndex, temp);
+            i = 1;
+            for (Athlete athlete : athletes) {
+                if (athlete.event.equals(events.get(eventIndex).event)) {
+                    if (i == addedAthlete) {
+                        temp = events.get(eventIndex);
+                        temp.athletes.add(athletes.get(j));
+                        events.set(eventIndex, temp);
+                        break;
+                    }
+                    i++;
+                }
+                j++;
+            }
             System.out.println("Added successfully, whether to continue adding? (Y/N)");
             continueString = scanner.next();
             if (! (continueString.equalsIgnoreCase("y") || continueString.equalsIgnoreCase("yes"))) {
@@ -322,6 +332,7 @@ public class Main {
     private static void AddRefereeForEvent () throws ParseException {
         String continueString;
         int i = 1;
+        int j = 0;
         Event temp;
         boolean continueAdd = true;
         System.out.println("Enter the index of the event that needs to add referee: ");
@@ -341,10 +352,18 @@ public class Main {
             System.out.println("------------------------------");
             System.out.println("Enter the index of the referee who needs to join the event: ");
             int addedReferee = scanner.nextInt();
-            addedReferee--;
-            temp = events.get(eventIndex);
-            temp.referees.add(referees.get(addedReferee));
-            events.set(eventIndex, temp);
+            i = 1;
+            for (Referee referee : referees) {
+                if (referee.event.equals(events.get(eventIndex).event)){
+                    if (i == addedReferee) {
+                        temp = events.get(eventIndex);
+                        temp.referees.add(referees.get(j));
+                        events.set(eventIndex, temp);
+                    }
+                    i++;
+                }
+                j++;
+            }
             System.out.println("Added successfully, whether to continue adding? (Y/N)");
             continueString = scanner.next();
             if (! (continueString.equalsIgnoreCase("y") || continueString.equalsIgnoreCase("yes"))) {
@@ -446,7 +465,7 @@ public class Main {
         System.out.println("------------------------------------------------------------");
         System.out.println("1. Sort by name");
         System.out.println("2. Sort by grade");
-        System.out.println("3. SOrt by sex");
+        System.out.println("3. Sort by sex");
         System.out.println("4. Sort by event");
         System.out.println("5. Sort by score");
         System.out.println("6. Add athlete");
@@ -476,8 +495,8 @@ public class Main {
             i++;
         }
         System.out.println("------------------------------");
-        System.out.println("1. SOrt by name");
-        System.out.println("2. SOrt by event");
+        System.out.println("1. Sort by name");
+        System.out.println("2. Sort by event");
         System.out.println("3. Add referee");
         System.out.println("4. return to upper level");
         System.out.println("------------------------------");
@@ -713,27 +732,27 @@ public class Main {
     }
 
     //Formatting output String of name of athlete in arraylist
-    private static String GetAthletes (ArrayList<Athlete> athletes) {
+    private static String GetAthletes (ArrayList<Athlete> inputAthletes) {
         StringBuilder returnString = new StringBuilder();
-        for (Athlete athlete : athletes) {
-            returnString.append(athlete.name);
+        for (Athlete athlete : inputAthletes) {
+            returnString.append(athlete.name).append("  ");
         }
         return returnString.toString();
     }
 
     //Formatting output String of name of referee in arraylist
-    private static String GetReferees (ArrayList<Referee> referees) {
+    private static String GetReferees (ArrayList<Referee> inputReferees) {
         StringBuilder returnString = new StringBuilder();
-        for (Referee referee : referees) {
-            returnString.append(referee.name);
+        for (Referee referee : inputReferees) {
+            returnString.append(referee.name).append("  ");
         }
         return returnString.toString();
     }
 
     //Formatting output String of result of event by athlete in arraylist
-    private static String GetResult (ArrayList<Athlete> athletes) {
-        Athlete bestAthlete = athletes.get(0);
-        for (Athlete athlete : athletes) {
+    private static String GetResult (ArrayList<Athlete> inputAthletes) {
+        Athlete bestAthlete = inputAthletes.get(0);
+        for (Athlete athlete : inputAthletes) {
             if (athlete.event.compareTo(bestAthlete.score) > 0) {
                 bestAthlete = athlete;
             }
